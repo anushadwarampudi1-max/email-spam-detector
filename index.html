@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Email Spam Detector</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #777;
+            font-size: 16px;
+        }
+
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f5f6ff;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .user-info span {
+            color: #555;
+            font-size: 14px;
+        }
+
+        .logout {
+            text-decoration: none;
+            background: #e74c3c;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .logout:hover {
+            background: #c0392b;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 220px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            resize: vertical;
+            font-size: 15px;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #667eea;
+        }
+
+        .check-btn {
+            width: 100%;
+            margin-top: 18px;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #667eea;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .check-btn:hover {
+            background: #5568d9;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            background: #f5f6ff;
+        }
+
+        .result h2 {
+            color: #333;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #888;
+            font-size: 13px;
+        }
+        /* Full Screen Loading Animation */
+
+ .loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.email-animation {
+    font-size: 120px;
+    animation: emailPulse 1s infinite alternate;
+}
+
+.loading-text {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+@keyframes emailPulse {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.25);
+    }
+}
+
+#main-content {
+    display: none;
+}
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+<div id="loading-screen">
+    <div class="email-animation">
+        📧
+    </div>
+    <div class="loading-text">
+        AI Email Spam Detector
+    </div>
+</div>
+
+    <div class="container" id="main-content">
+
+        <div class="header">
+            <h1>📧 AI Email Spam Detector</h1>
+            <p>Detect whether an email is Spam or Not Spam using AI</p>
+        </div>
+
+        <div class="user-info">
+            <span>Welcome, {{ session["user_email"] }}</span>
+
+            <a href="/logout" class="logout">
+                Logout
+            </a>
+        </div>
+
+        <form action="/predict" method="POST">
+
+            <label for="email_text">
+                Enter Email Content
+            </label>
+
+            <textarea
+                id="email_text"
+                name="email_text"
+                placeholder="Paste or type the email message here..."
+                required
+            ></textarea>
+
+            <button type="submit" class="check-btn">
+                🔍 Check Email
+            </button>
+
+        </form>
+
+        {% if result %}
+        <div class="result">
+            <h2>{{ result }}</h2>
+        </div>
+        {% endif %}
+
+        <div class="footer">
+            AI-based Email Spam Detection System
+        </div>
+
+    </div>
+ <script>
+    setTimeout(function () {
+        document.getElementById("loading-screen").style.display = "none";
+        document.getElementById("main-content").style.display = "block";
+    }, 2000);
+</script>
+</body>
+
+</html>
